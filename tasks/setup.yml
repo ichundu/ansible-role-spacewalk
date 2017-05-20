@@ -1,0 +1,9 @@
+---
+
+- name: Copy spacewalk answer file
+  template:
+    src: spacewalk-answer-file.j2
+    dest: /root/spacewalk-answer-file
+
+- name: Install spacewalk
+  command: spacewalk-setup --answer-file=/root/spacewalk-answer-file

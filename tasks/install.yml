@@ -1,0 +1,32 @@
+---
+
+- name: Ensure EPEL repo is present
+  yum:
+    name: epel-release
+    state: present
+
+- name: Add spacewalk and jpackage repository
+  yum_repository:
+    name: "{{ item.repoid }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
+    file: "{{ item.file }}"
+    enabled: "{{ item.enabled }}"
+    gpgcheck: "{{ item.gpgcheck }}"
+    gpgkey: "{{ item.gpgkey }}"
+    proxy: "{{ item.proxy }}"
+  with_items: "{{ spacewalk_repo }}"
+
+- name: Import spacewalk rpm gpg key
+  rpm_key:
+    key: "{{ item }}"
+  with_items:
+    - "{{ spacewalk_gpg_key }}"
+    - "{{ spacewalk_jpackage_gpg_key }}"
+
+- name: Install spacewalk packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ spacewalk_pkgs }}"

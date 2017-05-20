@@ -1,0 +1,33 @@
+---
+
+- name: Check if firewalld service is running
+  command: "/usr/bin/systemctl status firewalld"
+  register: service_status_firewall
+  failed_when: service_status_firewall.rc == 2
+  changed_when: false
+
+- name: Configure firewall services
+  firewalld:
+    service: "{{ item }}"
+    immediate: true
+    permanent: true
+    state: enabled
+  with_items:
+    - "{{ spacewalk_firewall.services }}"
+  when: '"Active: active" in service_status_firewall.stdout'
+
+- name: Configure firewall ports
+  firewalld:
+    port: "{{ item }}"
+    immediate: true
+    permanent: true
+    state: enabled
+  with_items:
+    - "{{ spacewalk_firewall.ports }}"
+  when: '"Active: active" in service_status_firewall.stdout'
+
+- name: Add entry to /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
+    state: present

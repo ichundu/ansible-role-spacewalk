@@ -1,0 +1,7 @@
+---
+
+- hosts: spacewalk.example.com
+  become: yes
+
+  roles:
+    - ichundu.spacewalk

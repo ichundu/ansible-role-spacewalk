@@ -1,0 +1,58 @@
+---
+# defaults file for spacewalk
+
+spacewalk_repo:
+  - repoid: spacewalk
+    description: "Spacewalk"
+    file: spacewalk
+    baseurl: "{{ spacewalk_repo_url }}"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "{{ spacewalk_gpg_key }}"
+    proxy: "_none_"
+
+  - repoid: jpackage-generic
+    description: "JPackage generic"
+    file: jpackage-generic
+    baseurl: "{{ spacewalk_jpackage_url }}"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "{{ spacewalk_jpackage_gpg_key }}"
+    proxy: "_none_"
+
+spacewalk_repo_url: "http://spacewalk.redhat.com/yum/latest/RHEL/$releasever/$basearch"
+spacewalk_gpg_key: "http://yum.spacewalkproject.org/RPM-GPG-KEY-spacewalk-2015"
+spacewalk_jpackage_url: "http://mirrors.dotsrc.org/pub/jpackage/5.0/generic/free/"
+spacewalk_jpackage_gpg_key: "http://www.jpackage.org/jpackage.asc"
+
+spacewalk_pkgs:
+  - spacewalk-setup-postgresql
+  - spacewalk-postgresql
+
+spacewalk_firewall:
+  services: 
+    - "http"
+    - "https"
+  ports:
+    - 5222/tcp
+    - 5269/tcp
+
+# Spacewalk answer file variables for non-interactive install
+spacewalk_answers:
+  - admin-email = root@localhost
+  - ssl-set-org = O
+  - ssl-set-org-unit = OU
+  - ssl-set-city = L
+  - ssl-set-state = P
+  - ssl-set-country = US
+  - ssl-password = s3cret
+  - ssl-set-email = root@localhost
+  - ssl-config-sslvhost = Y
+  - db-backend=postgresql
+  - db-name=spacewalk
+  - db-user=spacewalk
+  - db-password=s3cret
+  - db-host=localhost
+  - db-port=5432
+  - enable-tftp=Y
+
