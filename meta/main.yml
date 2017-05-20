@@ -1,6 +1,6 @@
 galaxy_info:
-  author: your name
-  description: your description
+  author: ichundu
+  description: Install spacewalk
   company: your company (optional)
 
   # If the issue tracker for your role is not on github, uncomment the
@@ -16,7 +16,7 @@ galaxy_info:
   # - CC-BY
   license: license (GPLv2, CC-BY, etc)
 
-  min_ansible_version: 1.2
+  min_ansible_version: 2.2
 
   # Optionally specify the branch Galaxy will use when accessing the GitHub
   # repo for this role. During role install, if no tags are available,
@@ -31,7 +31,11 @@ galaxy_info:
   # the ones that apply to your role. If you don't see your
   # platform on this list, let us know and we'll get it added!
   #
-  #platforms:
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 6
   #- name: OpenBSD
   #  versions:
   #  - all
