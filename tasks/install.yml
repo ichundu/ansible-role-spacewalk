@@ -2,8 +2,12 @@
 
 - name: Ensure EPEL repo is present
   yum:
-    name: epel-release
+    name: "{{ epel_repo }}"
     state: present
+
+- name: Enable optionals rpm repo for RedHat
+  command: "subscription-manager repos --enable rhel-{{ ansible_distribution_major_version }}-server-optional-rpms"
+  when: ansible_distribution == "RedHat"
 
 - name: Add spacewalk and jpackage repository
   yum_repository:

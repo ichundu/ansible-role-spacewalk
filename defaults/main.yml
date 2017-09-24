@@ -20,7 +20,8 @@ spacewalk_repo:
     gpgkey: "{{ spacewalk_jpackage_gpg_key }}"
     proxy: "_none_"
 
-spacewalk_repo_url: "http://spacewalk.redhat.com/yum/latest/RHEL/$releasever/$basearch"
+#spacewalk_version: "2.7"
+spacewalk_repo_url: "http://yum.spacewalkproject.org/{{ spacewalk_version | default('latest') }}/RHEL/{{ ansible_distribution_major_version }}/$basearch/"
 spacewalk_gpg_key: "http://yum.spacewalkproject.org/RPM-GPG-KEY-spacewalk-2015"
 spacewalk_jpackage_url: "http://mirrors.dotsrc.org/pub/jpackage/5.0/generic/free/"
 spacewalk_jpackage_gpg_key: "http://www.jpackage.org/jpackage.asc"
@@ -30,12 +31,12 @@ spacewalk_pkgs:
   - spacewalk-postgresql
 
 spacewalk_firewall:
-  services: 
+  services:
     - "http"
     - "https"
   ports:
-    - 5222/tcp
-    - 5269/tcp
+    - "5222/tcp"
+    - "5269/tcp"
 
 # Spacewalk answer file variables for non-interactive install
 spacewalk_answers:
@@ -55,4 +56,3 @@ spacewalk_answers:
   - db-host=localhost
   - db-port=5432
   - enable-tftp=Y
-
