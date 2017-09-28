@@ -11,20 +11,20 @@ spacewalk_repo:
     gpgkey: "{{ spacewalk_gpg_key }}"
     proxy: "_none_"
 
-  - repoid: jpackage-generic
-    description: "JPackage generic"
-    file: jpackage-generic
-    baseurl: "{{ spacewalk_jpackage_url }}"
+  - repoid: spacewalkproject-java-packages
+    description: "Spacewalk Java packages"
+    file: spacewalkproject-java-packages
+    baseurl: "{{ spacewalk_java_repo_url }}"
     enabled: true
     gpgcheck: true
-    gpgkey: "{{ spacewalk_jpackage_gpg_key }}"
+    gpgkey: "{{ spacewalk_java_repo_gpg_key }}"
     proxy: "_none_"
 
 #spacewalk_version: "2.7"
 spacewalk_repo_url: "http://yum.spacewalkproject.org/{{ spacewalk_version | default('latest') }}/RHEL/{{ ansible_distribution_major_version }}/$basearch/"
 spacewalk_gpg_key: "http://yum.spacewalkproject.org/RPM-GPG-KEY-spacewalk-2015"
-spacewalk_jpackage_url: "http://mirrors.dotsrc.org/pub/jpackage/5.0/generic/free/"
-spacewalk_jpackage_gpg_key: "http://www.jpackage.org/jpackage.asc"
+spacewalk_java_repo_url: "https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/java-packages/epel-7-$basearch/"
+spacewalk_java_repo_gpg_key: "https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/java-packages/pubkey.gpg"
 
 spacewalk_pkgs:
   - spacewalk-setup-postgresql
