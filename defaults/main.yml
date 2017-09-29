@@ -21,7 +21,7 @@ spacewalk_repo:
     proxy: "_none_"
 
 #spacewalk_version: "2.7"
-spacewalk_repo_url: "http://yum.spacewalkproject.org/{{ spacewalk_version | default('latest') }}/RHEL/{{ ansible_distribution_major_version }}/$basearch/"
+spacewalk_repo_url: "http://yum.spacewalkproject.org/{{ spacewalk_version | default('latest') }}/RHEL/7/$basearch/"
 spacewalk_gpg_key: "http://yum.spacewalkproject.org/RPM-GPG-KEY-spacewalk-2015"
 spacewalk_java_repo_url: "https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/java-packages/epel-7-$basearch/"
 spacewalk_java_repo_gpg_key: "https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/java-packages/pubkey.gpg"
