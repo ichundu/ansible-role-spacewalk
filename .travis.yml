@@ -26,6 +26,10 @@ script:
   - ansible-galaxy install --force -r tests/requirements.yml
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  # Style check for yaml
+  - find . -name "*.yml" | xargs yamllint
+  # http://molecule.readthedocs.io/en/v1/
+  - molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

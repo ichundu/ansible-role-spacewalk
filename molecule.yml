@@ -1,0 +1,15 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+docker:
+  containers:
+    - name: ansible-role-squid
+      image: milcom/centos7-systemd
+      image_version: latest
+      privileged: True
+      ansible_groups:
+        - group1
+verifier:
+name: testinfra
