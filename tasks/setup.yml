@@ -5,5 +5,11 @@
     src: spacewalk-answer-file.j2
     dest: /root/spacewalk-answer-file
 
+- name: Check the presence of rhn.conf file
+  stat:
+    path: /etc/rhn/rhn.conf
+  register: rhnconf
+
 - name: Install spacewalk
   command: spacewalk-setup --answer-file=/root/spacewalk-answer-file
+  when: not rhnconf.stat.exists

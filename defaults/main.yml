@@ -30,6 +30,11 @@ spacewalk_pkgs:
   - spacewalk-setup-postgresql
   - spacewalk-postgresql
 
+spacewalk_extra_pkgs:
+  - spacewalk-utils
+  - spacewalk-reports
+  - spacecmd
+
 spacewalk_firewall:
   services:
     - "http"
