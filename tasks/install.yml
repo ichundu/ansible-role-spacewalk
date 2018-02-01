@@ -34,3 +34,11 @@
     state: present
   with_items:
     - "{{ spacewalk_pkgs }}"
+
+- name: Install spacewalk extra packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ spacewalk_extra_pkgs }}"
+  when: spacewalk_extra_pkgs is defined
