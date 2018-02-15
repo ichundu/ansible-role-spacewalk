@@ -14,8 +14,9 @@
   command: postgresql-setup initdb
   environment:
     LANG: en_US.utf8
+  args:
+    creates: /var/lib/pgsql/data
   when: not rhnconf.stat.exists
-  creates: /var/lib/pgsql/data
 
 - name: Install spacewalk
   command: spacewalk-setup --answer-file=/root/spacewalk-answer-file
