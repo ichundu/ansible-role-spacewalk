@@ -1,0 +1,7 @@
+module reposync_tomcat 1.0;
+
+require {
+        type tomcat_t;
+        type spacewalk_log_t;
+        class file read;
+}
