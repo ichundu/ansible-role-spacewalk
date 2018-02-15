@@ -66,8 +66,9 @@
 
     - name: Remove SELinux policy temporary files
       file:
-        path: /tmp/reposync_tomcat.*
+        path: "{{ item }}"
         state: absent
+      with_fileglob: /tmp/reposync_tomcat.*
       tags: selinux
 
   when: ansible_selinux and ansible_selinux.status == "enabled"
