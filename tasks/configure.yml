@@ -31,3 +31,47 @@
     dest: /etc/hosts
     line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
     state: present
+
+- name: Create a custom reposync_tomcat policy for SELinux (bugzilla #1522939)
+  block:
+
+    - name: Get the loaded SELinux modules
+      command: semodule -l
+      register: semodule
+      changed_when: False
+      tags: selinux
+      check_mode: no
+
+    - name: Copy the reposync_tomcat SELinux policy file
+      copy:
+        src: reposync_tomcat.te
+        dest: /tmp/reposync_tomcat.te
+      when: semodule.stdout.find('reposync_tomcat') == -1
+      tags: selinux
+
+    - name: Compile the SELinux module file
+      command: checkmodule -M -m -o /tmp/reposync_tomcat.mod /tmp/reposync_tomcat.te
+      when: semodule.stdout.find('reposync_tomcat') == -1
+      tags: selinux
+
+    - name: Build SELinux policy package
+      command: semodule_package -o /tmp/reposync_tomcat.pp -m /tmp/reposync_tomcat.mod
+      when: semodule.stdout.find('reposync_tomcat') == -1
+      tags: selinux
+
+    - name: Load the reposync_tomcat SELinux policy
+      command: semodule -i /tmp/reposync_tomcat.pp
+      when: semodule.stdout.find('reposync_tomcat') == -1
+      tags: selinux
+
+    - name: Remove SELinux policy temporary files
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "/tmp/reposync_tomcat.mod"
+        - "/tmp/reposync_tomcat.pp"
+        - "/tmp/reposync_tomcat.te"
+      tags: selinux
+
+  when: ansible_selinux and ansible_selinux.status == "enabled"

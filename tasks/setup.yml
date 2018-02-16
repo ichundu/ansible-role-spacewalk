@@ -10,6 +10,14 @@
     path: /etc/rhn/rhn.conf
   register: rhnconf
 
+- name: Initialise the database before running spacewalk-setup (bugzilla #1524221)
+  command: postgresql-setup initdb
+  environment:
+    LANG: en_US.utf8
+  args:
+    creates: /var/lib/pgsql/data
+  when: not rhnconf.stat.exists
+
 - name: Install spacewalk
   command: spacewalk-setup --answer-file=/root/spacewalk-answer-file
   when: not rhnconf.stat.exists
